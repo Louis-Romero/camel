@@ -1,0 +1,175 @@
+#include <iostream>
+#include <cctype>
+#include <ctime>
+#include <cstdlib>
+
+using namespace std;
+
+void askUserToContinue(int& miles, int& drinksLeft, int& nativesMiles);
+void camelTired(int& tiredness, int& nDistance);
+void fullSpeed(int& miles, int& thirst, int& tiredness, int& natives);
+void normalSpeed(int& miles, int& thirst, int& tiredness, int& natives);
+void drinkWater(int& thirstyness, int& drinks);
+
+int main() 
+{
+    
+    
+    bool done = false; 
+    char userInput;
+    int milesTraveled = 0, thirst = 0, camelTiredness = 0, nativeDistance = -20, drinksCanteen = 5, oasisValue;
+    
+        
+    cout << "Welcome to Camel!" << endl;
+    cout << "You have stolen a camel to make your way across the great Mobi desert." << endl;
+    cout << "The natives want their camel back and are chasing you down! Survive your dessert trek and out run the natives." << endl;
+                                      
+    while(done==false)
+    {   
+        srand(time(0));
+                                     
+        cout << "A. Drink from your canteen." << endl;
+        cout << "B. Ahead moderate speed." << endl;
+        cout << "C. Ahead full speed." << endl;
+        cout << "D. Stop for the night." << endl;
+        cout << "E. Status check." << endl;
+        cout << "Q. Quit." << endl;                                                              
+        cout << "Your choice ";
+        cin >> userInput;
+        userInput = toupper(userInput);
+                                                                                                 
+        switch(userInput)
+        {
+            case 'A':
+                 drinkWater(thirst, drinksCanteen);
+                break;
+            case 'B':
+                normalSpeed(milesTraveled, drinksCanteen, camelTiredness, nativeDistance);
+                break;
+            case 'C':
+                fullSpeed(milesTraveled, drinksCanteen, camelTiredness, nativeDistance);
+                break;
+            case 'D':
+                camelTired(camelTiredness, nativeDistance);
+                break;
+            case 'E': 
+                askUserToContinue(milesTraveled, drinksCanteen, nativeDistance);
+                break;
+            case 'Q':
+                done = true;
+                break;
+            default:
+                cout << "Invalid Input!" << endl;
+        }//end of switch
+        
+        if(thirst > 4)
+        {
+            cout << "You are thirsty!" << endl;
+        }
+        if(thirst > 6)
+        {
+          cout << "You died of thirst!" << endl;
+          done = true;
+        }
+        
+        if(camelTiredness > 5)
+        {
+            cout << "Your camel is getting tired!" << endl;
+        }
+        if(camelTiredness > 8)
+        {
+            cout << "Your camel is dead!" << endl;
+        }
+        
+        if(nativeDistance >= 0)
+        {
+            cout << "The natives have caught you!" << endl;
+            return 0;
+        }
+        else if (nativeDistance <= 15)
+        {
+            cout << "The natives are getting close!" << endl;
+        }
+        
+        if(milesTraveled >= 200)
+        {
+            cout << "You have escaped the natives!" << endl;
+            return 0;
+        }
+        
+        oasisValue = rand()% 20 + 1;
+        if(oasisValue == 1)
+        {
+            drinksCanteen = 5;
+            thirst = 0;
+            camelTiredness = 0;
+            cout << "You've found an oasisi!" << endl;
+        }
+        
+      
+      }// end of while
+      
+      return 0;
+}// end of main
+
+void askUserToContinue(int& miles, int& drinksLeft, int& nativesMiles)
+{
+    cout << "Miles traveled: " << miles << endl;
+    cout << "Drinks in Canteen: " << drinksLeft << endl;
+    cout << "The natives are 10 miles behind you " << nativesMiles << endl;
+}
+
+void camelTired(int& tiredness, int& nDistance)
+{
+    srand(time(0));
+    int nativesMoveUp;    
+    nativesMoveUp = rand() % 8 + 7;
+    nDistance = nDistance + nativesMoveUp; 
+    tiredness = 0;
+    cout << "Camel is happy!" << endl;  
+}
+
+void fullSpeed(int& miles, int& thirst, int& tiredness, int& natives)
+{
+    srand(time(0));
+    int nativesMoveUp;
+    int cameltired; 
+    int milesTraveled;    
+    nativesMoveUp = rand() % 8 + 7;
+    natives = natives + nativesMoveUp;
+    thirst++;
+    cameltired = rand() % 3 + 1;
+    tiredness = tiredness + cameltired;
+    milesTraveled = rand() % 11 + 10;
+    miles = miles + milesTraveled; 
+    cout << "You have traveled: " << miles << endl;      
+}
+
+void normalSpeed(int& miles, int& thirst, int& tiredness, int& natives){
+    srand(time(0));
+    int nativesMoveUp;  
+    int milesTraveled; 
+    int cameltired;
+    nativesMoveUp = rand() % 8 + 7;
+    natives = natives + nativesMoveUp;
+    milesTraveled = rand() % 8 + 5;
+    miles = miles + milesTraveled; 
+    thirst++;
+    cameltired = rand() % 2 + 0;
+    tiredness = tiredness + cameltired;
+    cout << "You have traveled: " << miles << endl;
+}
+
+void drinkWater(int& thirstyness, int& drinks)
+{
+    if(drinks > 0)
+    {
+        drinks--;
+        thirstyness = 0;
+    }
+    else
+    {
+        cout << "Error!" << endl;
+    }
+}
+
